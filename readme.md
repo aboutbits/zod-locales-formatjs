@@ -33,17 +33,17 @@ import { IntlProvider } from 'react-intl'
 Finally, configure `Zod` to use the new translations. You can use these helpers with `React`:
 
 ```js
-import { useZodInternationalization } from '@aboutbits/zod-locales-formatjs'
+import { useZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs'
 
-useZodInternationalization()
+useZodInternationalizationWithReactIntl()
 ```
 
 or
 
 ```js
-import { ZodInternationalization } from '@aboutbits/zod-locales-formatjs'
+import { ZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs'
 
-<ZodInternationalization />
+<ZodInternationalizationWithReactIntl />
 ```
 
 These `React` helpers require to install the `react-intl` package.
