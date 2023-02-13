@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    tags-ignore:
+      - '**'
+
+jobs:
+  checks:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck

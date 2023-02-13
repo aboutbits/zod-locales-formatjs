@@ -1,0 +1,11 @@
+# Basic
+.DS_Store
+
+# IDE
+/.idea
+/.vscode
+
+# Project
+/node_modules
+/dist
+/translations-template.json
