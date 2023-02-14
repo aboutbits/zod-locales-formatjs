@@ -35,7 +35,8 @@
     "url": "git+https://github.com/aboutbits/zod-locales-formatjs.git"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "react-intl/"
   ],
   "publishConfig": {
     "access": "public"
