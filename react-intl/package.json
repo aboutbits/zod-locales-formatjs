@@ -1,0 +1,6 @@
+{
+  "internal": true,
+  "main": "../dist/cjs/react-intl.js",
+  "module": "../dist/esm/react-intl.js",
+  "types": "../dist/cjs/react-intl.d.ts"
+}
