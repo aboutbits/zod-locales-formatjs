@@ -30,10 +30,10 @@ import { IntlProvider } from 'react-intl'
 
 ```
 
-Finally, configure `Zod` to use the new translations. You can use these helpers with `React`:
+Finally, configure `Zod` to use the new translations. The following helpers can be used with `React`. They require the `react-intl` package to be installed.
 
 ```js
-import { useZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs'
+import { useZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs/react-intl'
 
 useZodInternationalizationWithReactIntl()
 ```
@@ -41,12 +41,10 @@ useZodInternationalizationWithReactIntl()
 or
 
 ```js
-import { ZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs'
+import { ZodInternationalizationWithReactIntl } from '@aboutbits/zod-locales-formatjs/react-intl'
 
 <ZodInternationalizationWithReactIntl />
 ```
-
-These `React` helpers require to install the `react-intl` package.
 
 If you don't use `React`, you can set the `ZodErrorMap` manually with:
 
