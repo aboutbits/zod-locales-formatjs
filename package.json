@@ -38,6 +38,7 @@
     "dist/",
     "react-intl/"
   ],
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
