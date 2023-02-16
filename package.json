@@ -22,7 +22,7 @@
     "build:esm": "tsc --project tsconfig.build.esm.json",
     "translations:extract": "formatjs extract 'src/**/*.{js,ts}' --out-file translations-template.json --format simple",
     "translations:diff": "echo 'de:' && json-diff --keys-only src/translations/de.json translations-template.json && echo 'it:' && json-diff --keys-only src/translations/it.json translations-template.json",
-    "lint": "eslint --cache --ext js,ts,tsx src",
+    "lint": "eslint --cache --ext js,ts,tsx,json .",
     "lint:fix": "npm run lint -- --cache --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest --config jest.config.js --passWithNoTests",
