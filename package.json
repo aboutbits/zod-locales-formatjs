@@ -5,6 +5,7 @@
   "keywords": [
     "zod",
     "formatjs",
+    "react-inl",
     "internationalization",
     "language",
     "languages"
@@ -21,8 +22,8 @@
     "build:esm": "tsc --project tsconfig.build.esm.json",
     "translations:extract": "formatjs extract 'src/**/*.{js,ts}' --out-file translations-template.json --format simple",
     "translations:diff": "echo 'de:' && json-diff --keys-only src/translations/de.json translations-template.json && echo 'it:' && json-diff --keys-only src/translations/it.json translations-template.json",
-    "lint": "eslint --ext js,ts,tsx src",
-    "lint:fix": "npm run lint -- --fix",
+    "lint": "eslint --cache --ext js,ts,tsx,json .",
+    "lint:fix": "npm run lint -- --cache --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest --config jest.config.js --passWithNoTests",
     "prepare": "npm run build",
@@ -38,6 +39,7 @@
     "dist/",
     "react-intl/"
   ],
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
@@ -68,13 +70,14 @@
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "babel-jest": "^29.4.2",
-    "babel-loader": "^9.1.2",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-formatjs": "^4.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.4.2",
     "json-diff": "^1.0.2",
     "prettier": "^2.8.4",
