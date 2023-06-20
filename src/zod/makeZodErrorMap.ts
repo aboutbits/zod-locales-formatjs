@@ -1,4 +1,4 @@
-import { IntlShape } from '@formatjs/intl'
+import { FormatDateOptions, IntlShape } from '@formatjs/intl'
 import { z } from 'zod'
 import { errorMessages } from './errorMessages'
 
@@ -7,7 +7,7 @@ export function makeZodErrorMap<T>(
   issue: z.ZodIssueOptionalMessage,
   intl: IntlShape<T>
 ) {
-  const descriptorItem = getDescriptorItem(issue)
+  const descriptorItem = getDescriptorItem<T>(issue, intl)
 
   return descriptorItem.key in errorMessages
     ? {
@@ -19,7 +19,10 @@ export function makeZodErrorMap<T>(
     : { message: intl.formatMessage(errorMessages['default']) }
 }
 
-export function getDescriptorItem(issue: z.ZodIssueOptionalMessage): {
+export function getDescriptorItem<T>(
+  issue: z.ZodIssueOptionalMessage,
+  intl: IntlShape<T>
+): {
   key: string
   values?: Record<string, string | number>
 } {
@@ -40,42 +43,60 @@ export function getDescriptorItem(issue: z.ZodIssueOptionalMessage): {
   }
 
   if (
+    issue.code === z.ZodIssueCode.too_small &&
+    issue.type === 'string' &&
+    issue.minimum === 1
+  ) {
+    return { key: 'string.required' }
+  }
+
+  if (
     issue.code === z.ZodIssueCode.too_small ||
     issue.code === z.ZodIssueCode.too_big
   ) {
-    if (issue.exact) {
-      return {
-        key: `${issue.type}.exact`,
-        values: {
-          value:
-            issue.code === z.ZodIssueCode.too_small
-              ? issue.minimum
-              : issue.code === z.ZodIssueCode.too_big
-              ? issue.maximum
-              : '?',
-        },
+    let value =
+      issue.code === z.ZodIssueCode.too_small
+        ? issue.minimum
+        : issue.code === z.ZodIssueCode.too_big
+        ? issue.maximum
+        : '-'
+
+    if (issue.type === 'date') {
+      const date = new Date(value)
+
+      if (isNaN(date.getTime())) {
+        value = '-'
+      } else {
+        const dateOptions: FormatDateOptions = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+
+        const timeOptions: FormatDateOptions | null =
+          date.getUTCHours() === 0 && date.getUTCMinutes() === 0
+            ? null
+            : {
+                hour: '2-digit',
+                minute: '2-digit',
+              }
+
+        value = intl.formatDate(value, {
+          timeZone: 'UTC',
+          ...dateOptions,
+          ...timeOptions,
+        })
       }
     }
 
-    if (
-      issue.code === z.ZodIssueCode.too_small &&
-      issue.type === 'string' &&
-      issue.minimum === 1
-    ) {
-      return { key: 'string.required' }
-    }
-
     return {
-      key: `${issue.type}.${issue.code}.${
-        issue.inclusive ? 'inclusive' : 'exclusive'
-      }`,
+      key: issue.exact
+        ? `${issue.type}.exact`
+        : `${issue.type}.${issue.code}.${
+            issue.inclusive ? 'inclusive' : 'exclusive'
+          }`,
       values: {
-        value:
-          issue.code === z.ZodIssueCode.too_small
-            ? issue.minimum
-            : issue.code === z.ZodIssueCode.too_big
-            ? issue.maximum
-            : '?',
+        value,
       },
     }
   }

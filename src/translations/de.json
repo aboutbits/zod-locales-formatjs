@@ -7,7 +7,7 @@
   "validation/date.exact": "Muss genau {value} sein",
   "validation/date.invalid_date": "Ungültiges Datum",
   "validation/date.too_big.exclusive": "Muss vor {value} sein",
-  "validation/date.too_big.inclusive": "Muss höchstens {value} sein",
+  "validation/date.too_big.inclusive": "Darf höchstens {value} sein",
   "validation/date.too_small.exclusive": "Muss nach {value} sein",
   "validation/date.too_small.inclusive": "Muss mindestens {value} sein",
   "validation/default": "Ungültige Eingabe",
