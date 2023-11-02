@@ -74,7 +74,7 @@ export function getDescriptorItem<T>(
         }
 
         const timeOptions: FormatDateOptions | null =
-          date.getUTCHours() === 0 && date.getUTCMinutes() === 0
+          date.getHours() === 0 && date.getMinutes() === 0
             ? null
             : {
                 hour: '2-digit',
@@ -82,7 +82,6 @@ export function getDescriptorItem<T>(
               }
 
         value = intl.formatDate(value, {
-          timeZone: 'UTC',
           ...dateOptions,
           ...timeOptions,
         })
