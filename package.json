@@ -48,8 +48,8 @@
   },
   "homepage": "https://github.com/aboutbits/zod-locales-formatjs#readme",
   "engines": {
-    "npm": "^8 || ^9 || ^10",
-    "node": "^16 || ^18 || ^20"
+    "npm": ">=8",
+    "node": ">=16"
   },
   "dependencies": {
     "@formatjs/intl": "^2.6.5",
