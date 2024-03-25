@@ -5,7 +5,7 @@ import { errorMessages } from './errorMessages'
 // Docs https://zod.dev/ERROR_HANDLING?id=error-map-priority
 export function makeZodErrorMap<T>(
   issue: z.ZodIssueOptionalMessage,
-  intl: IntlShape<T>
+  intl: IntlShape<T>,
 ) {
   const descriptorItem = getDescriptorItem<T>(issue, intl)
 
@@ -13,7 +13,7 @@ export function makeZodErrorMap<T>(
     ? {
         message: intl.formatMessage(
           errorMessages[descriptorItem.key as keyof typeof errorMessages],
-          descriptorItem.values
+          descriptorItem.values,
         ),
       }
     : { message: intl.formatMessage(errorMessages['default']) }
@@ -21,7 +21,7 @@ export function makeZodErrorMap<T>(
 
 export function getDescriptorItem<T>(
   issue: z.ZodIssueOptionalMessage,
-  intl: IntlShape<T>
+  intl: IntlShape<T>,
 ): {
   key: string
   values?: Record<string, string | number>
@@ -58,8 +58,16 @@ export function getDescriptorItem<T>(
       issue.code === z.ZodIssueCode.too_small
         ? issue.minimum
         : issue.code === z.ZodIssueCode.too_big
-        ? issue.maximum
-        : '-'
+          ? issue.maximum
+          : '-'
+
+    /**
+     * The intl.formatMessage function does not support bigint values to be passed as values. That's why we have to
+     * handle these values and format them already here.
+     */
+    if (typeof value === 'bigint') {
+      value = intl.formatNumber(value)
+    }
 
     if (issue.type === 'date') {
       const date = new Date(value)

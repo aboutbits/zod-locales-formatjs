@@ -7,8 +7,11 @@
 
 # Project
 /node_modules
-/dist
 /translations-template.json
 
-# ESLint
+# Build
+/dist
+*.tsbuildinfo
+
+# Cache
 .eslintcache
