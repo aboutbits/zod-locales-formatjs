@@ -3,6 +3,7 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "lib": ["ES2021.Intl"],
     "declaration": true,
     "importHelpers": true,
     "resolveJsonModule": true
