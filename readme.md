@@ -23,7 +23,7 @@ npm install @aboutbits/zod-locales-formatjs
 Second, add the custom language packages to your `IntlProvider`:
 
 ```js
-import { de } from '@aboutbits/zod-locales-formatjs'
+import { de } from '@aboutbits/zod-locales-formatjs'
 import { IntlProvider } from 'react-intl'
 
 <IntlProvider messages={{...yourMessages, ...de }} {...}>{children}</IntlProvider>

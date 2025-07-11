@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "ES6",
+    "lib": ["ES2021.Intl"],
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist/esm"
   }

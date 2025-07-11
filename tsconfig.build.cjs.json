@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "ES5",
+    "lib": ["ES2021.Intl"],
     "outDir": "./dist/cjs"
   }
 }
