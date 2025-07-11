@@ -1,6 +1,6 @@
 {
   "name": "@aboutbits/zod-locales-formatjs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Custom Zod locales for FormatJS",
   "author": "AboutBits",
   "license": "MIT",
