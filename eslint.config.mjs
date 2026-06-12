@@ -10,16 +10,6 @@ export default defineConfig([
   jest,
   formatjs,
   {
-    rules: {
-      'import/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'unknown', 'parent', 'sibling', 'index'],
-        },
-      ],
-    },
-  },
-  {
     ignores: ['dist', 'node_modules'],
   },
 ])
