@@ -28,6 +28,7 @@ export function getDescriptorItem<T>(
 } {
   if (issue.code === z.ZodIssueCode.invalid_string) {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
       key: `string.invalid.${issue.validation}`,
     }
   }
@@ -57,7 +58,8 @@ export function getDescriptorItem<T>(
     let value =
       issue.code === z.ZodIssueCode.too_small
         ? issue.minimum
-        : issue.code === z.ZodIssueCode.too_big
+        : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          issue.code === z.ZodIssueCode.too_big
           ? issue.maximum
           : '-'
 
