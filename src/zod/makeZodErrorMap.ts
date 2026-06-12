@@ -16,7 +16,7 @@ export function makeZodErrorMap<T>(
           descriptorItem.values,
         ),
       }
-    : { message: intl.formatMessage(errorMessages['default']) }
+    : { message: intl.formatMessage(errorMessages.default) }
 }
 
 export function getDescriptorItem<T>(
