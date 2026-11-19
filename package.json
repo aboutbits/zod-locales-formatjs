@@ -45,7 +45,7 @@
   ],
   "engines": {
     "npm": ">=8",
-    "node": ">=20.19"
+    "node": ">=26"
   },
   "scripts": {
     "build": "tsdown",
@@ -65,7 +65,7 @@
     "@formatjs/cli": "^6.7.2",
     "@formatjs/intl": "^6.2.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^22",
+    "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "babel-jest": "^30.0.4",
     "eslint": "^9.39.0",
