@@ -1,107 +1,90 @@
-import { FormatDateOptions, IntlShape } from '@formatjs/intl'
-import { z } from 'zod'
-import { errorMessages } from './errorMessages'
+import { errorMessages } from './errorMessages.js'
+import type {
+  FormatDateOptions,
+  IntlShape,
+  MessageDescriptor,
+} from '@formatjs/intl'
+import type { z } from 'zod'
 
-// Docs https://zod.dev/ERROR_HANDLING?id=error-map-priority
+// Docs https://zod.dev/error-customization#global-error-customization
 export function makeZodErrorMap<T>(
-  issue: z.ZodIssueOptionalMessage,
+  issue: z.core.$ZodRawIssue,
   intl: IntlShape<T>,
 ) {
   const descriptorItem = getDescriptorItem<T>(issue, intl)
 
-  return descriptorItem.key in errorMessages
-    ? {
-        message: intl.formatMessage(
-          errorMessages[descriptorItem.key as keyof typeof errorMessages],
-          descriptorItem.values,
-        ),
-      }
-    : { message: intl.formatMessage(errorMessages.default) }
+  const descriptor: MessageDescriptor =
+    descriptorItem.key in errorMessages
+      ? errorMessages[descriptorItem.key as keyof typeof errorMessages]
+      : errorMessages.default
+
+  return {
+    message: intl.formatMessage(descriptor, descriptorItem.values),
+  }
+}
+
+/**
+ * Zod 4 uses snake_case names for some string formats. The translation keys keep their original names.
+ */
+const stringFormatKeys: Partial<Record<string, string>> = {
+  starts_with: 'startsWith',
+  ends_with: 'endsWith',
 }
 
 export function getDescriptorItem<T>(
-  issue: z.ZodIssueOptionalMessage,
+  issue: z.core.$ZodRawIssue,
   intl: IntlShape<T>,
 ): {
   key: string
   values?: Record<string, string | number>
 } {
-  if (issue.code === z.ZodIssueCode.invalid_string) {
+  if (issue.code === 'invalid_format') {
     return {
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
-      key: `string.invalid.${issue.validation}`,
+      key: `string.invalid.${stringFormatKeys[issue.format] ?? issue.format}`,
+      values:
+        issue.format === 'starts_with'
+          ? { value: String(issue.prefix) }
+          : issue.format === 'ends_with'
+            ? { value: String(issue.suffix) }
+            : undefined,
     }
   }
 
-  if (issue.code === z.ZodIssueCode.not_multiple_of) {
+  if (issue.code === 'not_multiple_of') {
     return {
       key: `number.${issue.code}`,
+      values: { value: formatNumeric(issue.divisor, intl) },
     }
-  }
-
-  if (issue.code === z.ZodIssueCode.invalid_date) {
-    return { key: `date.${issue.code}` }
   }
 
   if (
-    issue.code === z.ZodIssueCode.too_small &&
-    issue.type === 'string' &&
+    issue.code === 'invalid_type' &&
+    issue.expected === 'date' &&
+    issue.input instanceof Date
+  ) {
+    return { key: 'date.invalid_date' }
+  }
+
+  if (
+    issue.code === 'too_small' &&
+    issue.origin === 'string' &&
     issue.minimum === 1
   ) {
     return { key: 'string.required' }
   }
 
-  if (
-    issue.code === z.ZodIssueCode.too_small ||
-    issue.code === z.ZodIssueCode.too_big
-  ) {
-    let value =
-      issue.code === z.ZodIssueCode.too_small
-        ? issue.minimum
-        : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          issue.code === z.ZodIssueCode.too_big
-          ? issue.maximum
-          : '-'
+  if (issue.code === 'too_small' || issue.code === 'too_big') {
+    const limit = issue.code === 'too_small' ? issue.minimum : issue.maximum
 
-    /**
-     * The intl.formatMessage function does not support bigint values to be passed as values. That's why we have to
-     * handle these values and format them already here.
-     */
-    if (typeof value === 'bigint') {
-      value = intl.formatNumber(value)
-    }
-
-    if (issue.type === 'date') {
-      const date = new Date(value)
-
-      if (isNaN(date.getTime())) {
-        value = '-'
-      } else {
-        const dateOptions: FormatDateOptions = {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-
-        const timeOptions: FormatDateOptions | null =
-          date.getHours() === 0 && date.getMinutes() === 0
-            ? null
-            : {
-                hour: '2-digit',
-                minute: '2-digit',
-              }
-
-        value = intl.formatDate(value, {
-          ...dateOptions,
-          ...timeOptions,
-        })
-      }
-    }
+    const value =
+      issue.origin === 'date'
+        ? formatDate(limit, intl)
+        : formatNumeric(limit, intl)
 
     return {
       key: issue.exact
-        ? `${issue.type}.exact`
-        : `${issue.type}.${issue.code}.${
+        ? `${issue.origin}.exact`
+        : `${issue.origin}.${issue.code}.${
             issue.inclusive ? 'inclusive' : 'exclusive'
           }`,
       values: {
@@ -111,4 +94,39 @@ export function getDescriptorItem<T>(
   }
 
   return { key: 'default' }
+}
+
+/**
+ * The intl.formatMessage function does not support bigint values to be passed as values. That's why we have to
+ * handle these values and format them already here.
+ */
+function formatNumeric<T>(value: number | bigint, intl: IntlShape<T>) {
+  return typeof value === 'bigint' ? intl.formatNumber(value) : value
+}
+
+function formatDate<T>(value: number | bigint, intl: IntlShape<T>) {
+  const date = new Date(Number(value))
+
+  if (isNaN(date.getTime())) {
+    return '-'
+  }
+
+  const dateOptions: FormatDateOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }
+
+  const timeOptions: FormatDateOptions | null =
+    date.getHours() === 0 && date.getMinutes() === 0
+      ? null
+      : {
+          hour: '2-digit',
+          minute: '2-digit',
+        }
+
+  return intl.formatDate(date, {
+    ...dateOptions,
+    ...timeOptions,
+  })
 }

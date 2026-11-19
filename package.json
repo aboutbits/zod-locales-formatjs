@@ -26,51 +26,61 @@
     "access": "public"
   },
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./react-intl": {
+      "types": "./dist/react-intl.d.ts",
+      "default": "./dist/react-intl.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist/",
-    "react-intl/"
+    "dist/"
   ],
   "engines": {
     "npm": ">=8",
-    "node": ">=18"
+    "node": ">=20.19"
   },
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc --project tsconfig.build.cjs.json",
-    "build:esm": "tsc --project tsconfig.build.esm.json",
+    "build": "tsc --project tsconfig.build.json",
     "translations:extract": "formatjs extract 'src/**/*.{js,ts}' --out-file translations-template.json --format simple",
     "translations:diff": "echo 'de:' && json-diff --keys-only src/translations/de.json translations-template.json && echo 'it:' && json-diff --keys-only src/translations/it.json translations-template.json",
     "lint": "eslint --cache",
     "lint:fix": "npm run lint -- --fix",
     "typecheck": "tsc --noEmit",
-    "test": "jest --config jest.config.js --passWithNoTests",
+    "test": "jest --config jest.config.cjs --passWithNoTests",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test && npm run lint",
     "version": "npm run test && npm run lint && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "dependencies": {
-    "@formatjs/intl": "^3",
-    "zod": "^3"
-  },
   "devDependencies": {
-    "@aboutbits/eslint-config": "^5.1.0",
+    "@aboutbits/eslint-config": "^6.2.0",
     "@formatjs/cli": "^6.7.2",
+    "@formatjs/intl": "^6.2.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22",
+    "@types/react": "^19.3.0",
     "babel-jest": "^30.0.4",
     "eslint": "^9.39.0",
     "jest": "^30.0.4",
     "json-diff": "^1.0.6",
     "prettier": "^3.6.2",
-    "react-intl": "^7.1.11",
-    "typescript": "^5.6.3"
+    "react": "^19.3.1",
+    "react-intl": "^12.2.0",
+    "typescript": "^6.0.3",
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
-    "react-intl": "^7.0.0"
+    "@formatjs/intl": "^6.2.0",
+    "react-intl": "^12.2.0",
+    "zod": "^4.0.0"
   },
   "peerDependenciesMeta": {
     "react-intl": {

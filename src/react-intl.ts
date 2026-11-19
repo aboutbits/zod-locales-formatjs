@@ -1,2 +1,2 @@
-export * from './react-intl/useZodInternationalizationWithReactIntl'
-export * from './react-intl/ZodInternationalizationWithReactIntl'
+export * from './react-intl/useZodInternationalizationWithReactIntl.js'
+export * from './react-intl/ZodInternationalizationWithReactIntl.js'

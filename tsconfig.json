@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "lib": ["ES2021", "ES2021.Intl"],
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "verbatimModuleSyntax": true,
     "declaration": true,
-    "importHelpers": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

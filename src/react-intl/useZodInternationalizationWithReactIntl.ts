@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl'
-import { setZodErrorMap } from '../zod/setZodErrorMap'
+import { setZodErrorMap } from '../zod/setZodErrorMap.js'
 
 export function useZodInternationalizationWithReactIntl() {
   const intl = useIntl()
