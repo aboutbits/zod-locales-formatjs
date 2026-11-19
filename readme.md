@@ -23,7 +23,8 @@ npm install @aboutbits/zod-locales-formatjs zod @formatjs/intl
 Requirements:
 
 - `zod` 4
-- `@formatjs/intl` 6, or `react-intl` 12 when using the React helpers
+- `@formatjs/intl` 6
+- `react-intl` 12, only when using the React helpers
 - The package is ESM only. It needs Node.js 20.19 or later, or a bundler.
 
 Second, add the custom language packages to your `IntlProvider`:
