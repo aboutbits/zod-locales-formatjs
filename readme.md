@@ -25,7 +25,7 @@ Requirements:
 - `zod` 4
 - `@formatjs/intl` 6
 - `react-intl` 12, only when using the React helpers
-- The package is ESM only. It needs Node.js 20.19 or later, or a bundler that supports package `exports` and JSON import attributes (`with { type: 'json' }`).
+- The package is ESM only. It needs Node.js 20.19 or later, or a bundler that supports package `exports`.
 - TypeScript projects need `moduleResolution` set to `node16`, `nodenext` or `bundler`.
 
 Second, add the custom language packages to your `IntlProvider`:

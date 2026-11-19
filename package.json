@@ -48,7 +48,7 @@
     "node": ">=20.19"
   },
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsdown",
     "translations:extract": "formatjs extract 'src/**/*.{js,ts}' --out-file translations-template.json --format simple",
     "translations:diff": "echo 'de:' && json-diff --keys-only src/translations/de.json translations-template.json && echo 'it:' && json-diff --keys-only src/translations/it.json translations-template.json",
     "lint": "eslint --cache",
@@ -74,6 +74,7 @@
     "prettier": "^3.6.2",
     "react": "^19.3.1",
     "react-intl": "^12.2.0",
+    "tsdown": "^0.23.7",
     "typescript": "^6.0.3",
     "zod": "^4.6.7"
   },
