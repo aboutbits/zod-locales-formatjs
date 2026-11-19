@@ -1,4 +1,4 @@
-import { defineMessages } from '@formatjs/intl'
+import { type TypedMessageDescriptor, defineMessages } from '@formatjs/intl'
 
 export const errorMessages = defineMessages({
   default: {
@@ -133,4 +133,8 @@ export const errorMessages = defineMessages({
     id: 'validation/date.invalid_date',
     defaultMessage: 'Invalid date',
   },
-})
+  // The `satisfies` check only exists to use the `TypedMessageDescriptor` import.
+  // With `moduleResolution: bundler`, the generated `.d.ts` would otherwise refer to the type through `react-intl`,
+  // which re-exports it. `react-intl` is an optional peer dependency, so the types of this package would break for
+  // anyone who does not install it. When the import is in scope, TypeScript uses it instead.
+}) satisfies Record<string, TypedMessageDescriptor>

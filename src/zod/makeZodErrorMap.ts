@@ -1,4 +1,4 @@
-import { errorMessages } from './errorMessages.js'
+import { errorMessages } from './errorMessages'
 import type {
   FormatDateOptions,
   IntlShape,

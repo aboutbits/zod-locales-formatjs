@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { makeZodErrorMap } from './makeZodErrorMap.js'
+import { makeZodErrorMap } from './makeZodErrorMap'
 import type { IntlShape } from '@formatjs/intl'
 
 export function setZodErrorMap<T>(intl: IntlShape<T>) {

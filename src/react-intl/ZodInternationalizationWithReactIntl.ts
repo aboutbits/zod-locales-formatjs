@@ -1,4 +1,4 @@
-import { useZodInternationalizationWithReactIntl } from './useZodInternationalizationWithReactIntl.js'
+import { useZodInternationalizationWithReactIntl } from './useZodInternationalizationWithReactIntl'
 
 export function ZodInternationalizationWithReactIntl() {
   useZodInternationalizationWithReactIntl()
