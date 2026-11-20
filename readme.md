@@ -14,11 +14,19 @@ It contains translations for German and Italian.
 
 ## Usage
 
-First you need to install the package:
+First you need to install the package together with its peer dependencies:
 
 ```bash
-npm install @aboutbits/zod-locales-formatjs
+npm install @aboutbits/zod-locales-formatjs zod @formatjs/intl
 ```
+
+Requirements:
+
+- `zod` 4
+- `@formatjs/intl` 6
+- `react-intl` 12, only when using the React helpers
+- The package is ESM only. It needs Node.js 26 or later, or a bundler that supports package `exports`.
+- TypeScript projects need `moduleResolution` set to `node16`, `nodenext` or `bundler`.
 
 Second, add the custom language packages to your `IntlProvider`:
 

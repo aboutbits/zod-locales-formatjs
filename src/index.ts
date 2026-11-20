@@ -1,5 +1,6 @@
 export * from './zod/makeZodErrorMap'
 export * from './zod/errorMessages'
+export * from './zod/setZodErrorMap'
 
-export { default as de } from './translations/de.json'
-export { default as it } from './translations/it.json'
+export { default as de } from './translations/de.json' with { type: 'json' }
+export { default as it } from './translations/it.json' with { type: 'json' }
